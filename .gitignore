@@ -1,2 +1,6 @@
 #Ignore vagrant machine files out
 ./vagrant
+
+
+#Misc
+./idea
