@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-sudo su -
-pip install tower-cli
+#sudo su -
+#pip install tower-cli
 tower-cli config host 192.168.80.20
 tower-cli username admin
 tower-cli password ansiblefest

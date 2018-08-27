@@ -11,7 +11,11 @@ Vagrant.configure("2") do |config|
 	    tower.vm.synced_folder "manual_project", "/var/lib/awx/projects/manual_project", create: true,
             owner: "awx", group: "awx", mount_options: ["dmode=775"]
         tower.vm.provision "shell",
+           inline: "sudo yum install python-pip | yes "
+        tower.vm.provision "shell",
            inline: "sudo pip install tower-cli"
+        tower.vm.provision "shell",
+           inline: "sudo /vagrant/tower_config.sh"
 
 	end
 #	config.vm.define "app1_us" do |app1_us|
