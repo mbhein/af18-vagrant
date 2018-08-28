@@ -1,5 +1,5 @@
 #Ignore vagrant machine files out
-./vagrant/**
+.vagrant/**
 
 
 #Misc
