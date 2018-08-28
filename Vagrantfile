@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
         tower.vm.provision "shell",
            inline: "sudo pip install ansible-tower-cli"
         tower.vm.provision "shell",
-           path: "tower_config.sh"
+           path: "tower_admin.sh"
 
 	end
 #	config.vm.define "app1_us" do |app1_us|
