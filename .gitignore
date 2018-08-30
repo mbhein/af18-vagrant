@@ -6,3 +6,6 @@
 ./idea/**
 .idea/**
 .idea*
+
+#Supply your own license!!!!
+license.txt
