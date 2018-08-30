@@ -8,5 +8,5 @@ tower-cli config host 192.168.80.20
 tower-cli config username admin
 tower-cli config password $admin_pwd
 tower-cli config verify_ssl false
-# TODO tower-cli credential create machine vagrant password vagrant
 tower-cli credential create -n vagrant --credential-type="Machine" --organization Default --insecure --inputs='{"username":"vagrant","password":"vagrant"}'
+tower-cli setting modify LICENSE @/vagrant/license.txt
