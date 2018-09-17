@@ -1,0 +1,12 @@
+---
+# site.yml: master playbook for deploying Banner 9 Tomcat Instances
+
+- hosts: all
+  remote_user: vagrant
+
+  roles:
+    - tomcat
+
+
+
+...

@@ -1,0 +1,10 @@
+---
+
+#handlers:
+- name: Restart Client Tomcat
+  service:
+    name: "tomcat-{{ var_Client }}"
+    state: restarted
+
+
+...

@@ -1,0 +1,60 @@
+---
+
+# main.yml for tomcat role
+
+- name: OpenJDK Installed
+  yum:
+    name: java-1.8.0-openjdk.x86_64
+    state: latest
+
+- name: Create the Tomcat Group
+  group:
+    name: tomcat
+    state: present
+
+- name: Create the Tomcat User
+  user:
+    name: "{{ var_TomcatUser }}"
+    home: "{{ var_TomcatHome }}"
+    group: "{{ var_TomcatGroup }}"
+    shell: /bin/bash state=present
+
+- name: Set Tomcat Dir Owner
+  file: path={{ var_TomcatHome }} mode=0754 owner={{ var_TomcatUser }} group={{ var_TomcatGroup }} state=directory
+
+- name: Download Tomcat from specificed URL
+  get_url:
+    url: "{{ var_TomcatDownloadURL }}"
+    dest: "{{ var_TomcatHome }}/{{ var_TomcatArchiveFile}}"
+
+- name:  Client {{ var_Client }} -  Stat Tomcat Dir
+  stat: path={{ var_TomcatHome }}/{{ var_TomcatClientDir }}
+  register: check_TomcatClientDir
+
+- name:  Client {{ var_Client }} -  Unarchive Tomcat
+  unarchive:
+    src: "{{ var_TomcatHome }}/{{ var_TomcatArchiveFile }}"
+    dest: "{{ var_TomcatHome }}"
+    remote_src: yes
+  when: check_TomcatClientDir.stat.exists == false
+
+- name:  Client {{ var_Client }} -  Copy unpacked Tomcat to Tomcat Client {{ var_Client }} dir
+  command: mv {{ var_TomcatArchiveDir }} {{ var_TomcatHome }}/{{ var_TomcatClientDir }}
+  when: check_TomcatClientDir.stat.exists == false
+
+- name:  Client {{ var_Client }} -  Set Tomcat Client {{ var_Client }} Dir Owner
+  file: path={{ var_TomcatHome }}/{{ var_TomcatClientDir }} mode=0754 owner={{ var_TomcatUser }} group={{ var_TomcatGroup }} recurse=yes state=directory
+
+- name:  Client {{ var_Client }} -  Template Tomcat server.xml
+  template: src=templates/server.xml.j2 dest={{ var_TomcatHome }}/{{ var_TomcatClientDir }}/conf/server.xml owner={{ var_TomcatUser }} group={{ var_TomcatGroup }} mode=0744
+
+- name:  Client {{ var_Client }} -  Template Tomcat Service
+  template: src=templates/tomcat.service.j2 dest=/etc/systemd/system/tomcat-{{ var_Client}}.service owner=root group=root mode=0755
+
+- name:  Client {{ var_Client }} -  Enable Tomcat Service
+  systemd: daemon_reload=yes name=tomcat-{{ var_Client}}.service enabled=yes
+  notify:
+    - Restart Client Tomcat
+
+
+...
