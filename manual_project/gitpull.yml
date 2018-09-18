@@ -1,0 +1,45 @@
+---
+# Gitpull.yml
+#    1. sets local Tower Git directory
+#    2. performs a Git pull of the repository specified in follow extra_vars:
+#       git_url: ssh://git@
+#       git_organization:
+#       git_repo:
+
+
+- name: Local Tower Git Directory
+  hosts: localhost
+  gather_facts: no
+  become: yes
+  vars:
+    local_git_base_dir: /var/tower_git
+  tasks:
+
+    - name: Set local Git directory
+      file:
+        path: "{{ local_git_base_dir }}"
+        state: directory
+        mode: 0755
+        owner: awx
+        group: awx
+
+
+
+- name: Git PULL
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    local_git_base_dir: /var/tower_git
+  tasks:
+
+    - name: Update local Git repo of {{ git_organization }}/{{ git_repo }}
+      git:
+        repo: "{{ git_url }}/{{ git_organization }}/{{ git_repo }}.git"
+        dest: "{{ local_git_base_dir }}/{{ git_organization }}/{{ git_repo }}"
+        clone: yes
+        update: yes
+        accept_hostkey: yes
+      when: git_url is defined and git_organization is defined and git_repo is defined
+
+...
