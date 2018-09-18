@@ -6,12 +6,12 @@ After=syslog.target network.target
 User={{ var_TomcatUser }}
 Group={{ var_TomcatGroup }}
 Type=forking
-WorkingDirectory={{ var_TomcatHome }}/tomcat_{{ var_Client }}
-Environment=CATALINA_PID={{ var_TomcatHome }}/tomcat_{{ var_Client }}/tomcat.pid
-Environment=CATALINA_HOME={{ var_TomcatHome }}/tomcat_{{ var_Client }}
-Environment=CATALINA_BASE={{ var_TomcatHome }}/tomcat_{{ var_Client }}
-ExecStart={{ var_TomcatHome }}/tomcat_{{ var_Client }}/bin/startup.sh
-ExecStop={{ var_TomcatHome }}/tomcat_{{ var_Client }}/bin/shutdown.sh
+WorkingDirectory={{ var_TomcatHome }}/{{ var_Client }}
+Environment=CATALINA_PID={{ var_TomcatHome }}/{{ var_Client }}/tomcat.pid
+Environment=CATALINA_HOME={{ var_TomcatHome }}/{{ var_Client }}
+Environment=CATALINA_BASE={{ var_TomcatHome }}/{{ var_Client }}
+ExecStart={{ var_TomcatHome }}/{{ var_Client }}/bin/startup.sh
+ExecStop={{ var_TomcatHome }}/{{ var_Client }}/bin/shutdown.sh
 Restart=on-failure
 
 [Install]
