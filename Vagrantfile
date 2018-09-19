@@ -33,14 +33,14 @@ Vagrant.configure("2") do |config|
         sudo systemctl restart sshd
         SHELL
 	end
-#	config.vm.define "app1s02" do |app1s01|
-#	   app1s02.vm.box = "centos/7"
-#	   app1s02.vm.hostname = "prodapp1s02"
-#	   app1s02.vm.network "private_network", ip: "192.168.80.32"
-#    app1s02.vm.provision "shell",
-#       inline: <<-SHELL
-#        sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-#        sudo systemctl restart sshd
-#        SHELL
-#	end
+	config.vm.define "app1s02" do |app1s02|
+	   app1s02.vm.box = "centos/7"
+	   app1s02.vm.hostname = "prodapp1s02"
+	   app1s02.vm.network "private_network", ip: "192.168.80.32"
+    app1s02.vm.provision "shell",
+       inline: <<-SHELL
+        sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+        sudo systemctl restart sshd
+        SHELL
+	end
  end
