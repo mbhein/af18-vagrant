@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
         inline: <<-SHELL
         sudo yum -y install python-pip expect
         sudo pip install ansible-tower-cli
+        sudo echo "192.168.80.40    jenkins" >> /etc/hosts
         sudo echo "192.168.80.31    prodapp1s01" >> /etc/hosts
         sudo echo "192.168.80.32    prodapp1s02" >> /etc/hosts
         SHELL
@@ -33,14 +34,30 @@ Vagrant.configure("2") do |config|
         sudo systemctl restart sshd
         SHELL
 	end
-#	config.vm.define "app1s02" do |app1s01|
-#	   app1s02.vm.box = "centos/7"
-#	   app1s02.vm.hostname = "prodapp1s02"
-#	   app1s02.vm.network "private_network", ip: "192.168.80.32"
-#    app1s02.vm.provision "shell",
-#       inline: <<-SHELL
-#        sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-#        sudo systemctl restart sshd
-#        SHELL
-#	end
+	config.vm.define "app1s02" do |app1s02|
+	   app1s02.vm.box = "centos/7"
+	   app1s02.vm.hostname = "prodapp1s02"
+	   app1s02.vm.network "private_network", ip: "192.168.80.32"
+    app1s02.vm.provision "shell",
+       inline: <<-SHELL
+        sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+        sudo systemctl restart sshd
+        SHELL
+	end
+	config.vm.define "jenkins" do |jenkins|
+	   jenkins.vm.box = "centos/7"
+	   jenkins.vm.hostname = "jenkins"
+	   jenkins.vm.network "private_network", ip: "192.168.80.40"
+	jenkins.vm.provision "shell",
+        inline: <<-SHELL
+        sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+        sudo systemctl restart sshd
+        sudo echo "192.168.80.20    tower" >> /etc/hosts
+        sudo echo "192.168.80.31    prodapp1s01" >> /etc/hosts
+        sudo echo "192.168.80.32    prodapp1s02" >> /etc/hosts
+        SHELL
+    end
+    config.vm.provision :docker do |docker|
+        docker.run 'jenkins/jenkins:lts', auto_assign_name: false, args: '-d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home'
+    end
  end
