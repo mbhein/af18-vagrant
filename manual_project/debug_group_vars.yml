@@ -1,0 +1,18 @@
+---
+# 
+
+- hosts: all
+  remote_user: vagrant
+  vars:
+    clienthome: "{{ lookup('vars', ansible_limit + '_vars').clienthome }}"
+    servicehostport: "{{ lookup('vars', ansible_limit + '_vars').servicehostport }}"
+    apphostport: "{{ lookup('vars', ansible_limit + '_vars').apphostport }}"
+
+  tasks:
+
+  - name: debug ansible_limit vars
+    debug:
+      msg: "{{ client_vars.apphostport }} {{ servicehostport }}"
+
+
+...
