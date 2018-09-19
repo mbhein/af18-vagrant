@@ -11,3 +11,17 @@ Tower License File
         "subscription_name": "Red Hat Ansible Tower, Self-Support (10 Managed Nodes)",
         "eula_accepted": "true"
     *Make sure to add a trailing ',' to the key above "eula_accepted" as shown above
+
+
+Tower Deploy key
+------------
+        ssh-keygen -t rsa -b 4096 -C “AF18-Tower-Deploy”
+        /var/lib/awx/.ssh/af18-tower-deploy.pub
+        /var/lib/awx/.ssh/af18-tower-deploy
+        ssh-keygen -t rsa -b 4096 -C “AF18-Demo-Deploy”
+        /var/lib/awx/.ssh/af18-demo-deploy.pub
+        /var/lib/awx/.ssh/af18-demo-deploy
+        usermod -a -G awx vagrant
+
+1. Add the following to PATHS TO EXPOSE TO ISOLATED JOBS
+/var/lib/awx/.ssh,/var/lib/awx
