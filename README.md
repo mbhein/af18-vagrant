@@ -25,3 +25,14 @@ Tower Deploy key
 
 1. Add the following to PATHS TO EXPOSE TO ISOLATED JOBS
 /var/lib/awx/.ssh,/var/lib/awx
+
+Tower/Jenkins Integration
+--------------
+1. In Tower create jenkins-int user w/ password ansiblefest
+2. In Jenkins
+    - Add Ansible Tower plugin
+    - In Configuration System -> Ansible Tower -> Add Tower Installation
+    - Name: AF-Tower
+    - URL: https://192.168.80.20
+    - Add credentials jenkins-int:ansiblefest
+    - Check Force Trust Cert
