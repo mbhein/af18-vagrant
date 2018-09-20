@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
         sudo echo "192.168.80.32    prodapp1s02" >> /etc/hosts
         SHELL
     end
-    config.vm.provision :docker do |docker|
-        docker.run 'jenkins/jenkins:lts', auto_assign_name: false, args: '-d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home'
-    end
+ #   config.vm.provision :docker do |docker|
+ #       docker.run 'jenkins/jenkins:lts', auto_assign_name: false, args: '-d -p 8080:8080 -p 50000:50000 -v /var/lib/docker/jenkins_home:/var/jenkins_home'
+ #   end
  end
