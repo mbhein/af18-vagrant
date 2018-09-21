@@ -15,6 +15,7 @@ Tower License File
 
 Tower Deploy key
 ------------
+The following is not needed for latest version
         ssh-keygen -t rsa -b 4096 -C “AF18-Tower-Deploy”
         /var/lib/awx/.ssh/af18-tower-deploy.pub
         /var/lib/awx/.ssh/af18-tower-deploy
