@@ -1,6 +1,10 @@
 # ansiblefest18-vagrant
-AnsibleFest18 Vagrant Files
+AnsibleFest18 - Jenkins and Tower Integration Session Vagrant Files
 
+
+Clone Git Repository
+------------
+Clone https://github.com/mbhein/af18-vagrant.git
 
 Tower License File
 ------------
@@ -13,19 +17,27 @@ Tower License File
     *Make sure to add a trailing ',' to the key above "eula_accepted" as shown above
 
 
-Tower Deploy key
+Standing Up Environment
 ------------
-The following is not needed for latest version
-        ssh-keygen -t rsa -b 4096 -C “AF18-Tower-Deploy”
-        /var/lib/awx/.ssh/af18-tower-deploy.pub
-        /var/lib/awx/.ssh/af18-tower-deploy
-        ssh-keygen -t rsa -b 4096 -C “AF18-Demo-Deploy”
-        /var/lib/awx/.ssh/af18-demo-deploy.pub
-        /var/lib/awx/.ssh/af18-demo-deploy
-        usermod -a -G awx vagrant
+1. Install Vagrant (https://www.vagrantup.com/downloads.html)
+2. Install Oracle Virtualbox (you could use another type-2 hypervisor, just alter Vagrantfile to reflect the hypervisor you are using)
+3. Open terminal of your choice (environment runs on both Windows and Mac) to directory you cloned Git repo into
+4. Startup environment (Tower instance, 2 CENTOS7 hosts, and Docker running in a container)
+        
+        vagrant up
 
-1. Add the following to PATHS TO EXPOSE TO ISOLATED JOBS
-/var/lib/awx/.ssh,/var/lib/awx
+
+Environment
+-----------
+Tower: https://192.168.80.20 u:admin p:ansiblefest
+Jenkins: http://192.168.80.40:8080 (you will need to manually setup Jenkins)
+
+See tower_config.sh for what items are setup/created in Tower
+
+Still TODO (do manually for now):
+- Script creation of AF18-Project project and use https://github.com/mbhein/af18-project.git as SCM source
+- Script setting up templates from playbooks in AF18-Project 
+
 
 Tower/Jenkins Integration
 --------------
@@ -37,3 +49,5 @@ Tower/Jenkins Integration
     - URL: https://192.168.80.20
     - Add credentials jenkins-int:ansiblefest
     - Check Force Trust Cert
+    
+
