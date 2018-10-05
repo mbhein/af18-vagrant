@@ -1,0 +1,38 @@
+---
+#Setup local Tower server
+
+- hosts: localhost
+  become: yes
+  gather_facts: no
+
+  tasks:
+
+  # Remove Demo Project, Inventory, and Template
+  - name: Remove Demo Template
+    tower_job_template:
+      name: "Demo Inventory"
+      job_type: run
+      project: "Demo Project"
+      playbook: "hello world.yml"
+      state: absent
+    ignore_errors: yes
+
+  - name: Remove Demo Project
+    tower_project:
+      name: "Demo Project"
+      state: absent
+
+  - name: Remove Demo Inventory
+    tower_inventory:
+      name: "Demo Inventory"
+      organization: "Default"
+      state: absent
+
+  - name: Add Tower host
+    tower_host:
+      name: localhost
+      description: "Local Tower Host"
+      inventory: "Local"
+      state: present
+
+...
