@@ -35,4 +35,23 @@
       inventory: "Local"
       state: present
 
+  - name: Add Hello World Template
+    tower_job_template:
+      name: "Hello Local World"
+      description: "Run Hello World on Tower Server"
+      job_type: run
+      project: "Local"
+      playbook: "hello_world.yml"
+      inventory: Local
+      machine_credential: vagrant
+      state: present
+
+  - name: Launch Hello World
+    tower_job_launch:
+      job_template: "Hello Local World"
+      credential: vagrant
+      inventory: Local
+    register: hello_job
+
+
 ...
